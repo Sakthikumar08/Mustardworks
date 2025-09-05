@@ -1,59 +1,55 @@
-// components/Navbar.jsx
-import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
-const Navbar = ({ currentSection, setCurrentSection }) => {
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   // Handle scroll effect
-  useState(() => {
+  useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 10);
     };
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (section) => {
-    setCurrentSection(section);
-    setIsOpen(false);
+  const isActive = (path) => {
+    return location.pathname === path;
   };
 
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 shadow-lg' : 'bg-mustard-light'}`}>
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
-          <div className="flex items-center">
+          <Link to="/" className="flex items-center">
             <div className="logo-placeholder">MW</div>
             <span className="text-xl font-bold text-mustard-brown ml-3">MustardWorks</span>
-          </div>
+          </Link>
           
           <div className="hidden md:flex items-center space-x-8">
-            <a 
-              href="#home" 
-              className={`transition-colors ${currentSection === 'home' ? 'text-mustard-dark font-semibold' : 'text-mustard-brown hover:text-mustard-dark'}`}
-              onClick={() => handleNavClick('home')}
-            >Home</a>
-            <a 
-              href="#about" 
-              className={`transition-colors ${currentSection === 'about' ? 'text-mustard-dark font-semibold' : 'text-mustard-brown hover:text-mustard-dark'}`}
-              onClick={() => handleNavClick('about')}
-            >About Us</a>
-            <a 
-              href="#gallery" 
-              className={`transition-colors ${currentSection === 'gallery' ? 'text-mustard-dark font-semibold' : 'text-mustard-brown hover:text-mustard-dark'}`}
-              onClick={() => handleNavClick('gallery')}
-            >Gallery</a>
-            <a 
-              href="#contact" 
-              className={`transition-colors ${currentSection === 'contact' ? 'text-mustard-dark font-semibold' : 'text-mustard-brown hover:text-mustard-dark'}`}
-              onClick={() => handleNavClick('contact')}
-            >Contact Us</a>
-            <a 
-              href="#project" 
-              className={`transition-colors ${currentSection === 'project' ? 'text-mustard-dark font-semibold' : 'text-mustard-brown hover:text-mustard-dark'}`}
-              onClick={() => handleNavClick('project')}
-            >Project Submission</a>
+            <Link 
+              to="/" 
+              className={`transition-colors ${isActive('/') ? 'text-mustard-dark font-semibold' : 'text-mustard-brown hover:text-mustard-dark'}`}
+            >Home</Link>
+            <Link 
+              to="/about" 
+              className={`transition-colors ${isActive('/about') ? 'text-mustard-dark font-semibold' : 'text-mustard-brown hover:text-mustard-dark'}`}
+            >About Us</Link>
+            <Link 
+              to="/gallery" 
+              className={`transition-colors ${isActive('/gallery') ? 'text-mustard-dark font-semibold' : 'text-mustard-brown hover:text-mustard-dark'}`}
+            >Gallery</Link>
+            <Link 
+              to="/contact" 
+              className={`transition-colors ${isActive('/contact') ? 'text-mustard-dark font-semibold' : 'text-mustard-brown hover:text-mustard-dark'}`}
+            >Contact Us</Link>
+            <Link 
+              to="/project" 
+              className={`transition-colors ${isActive('/project') ? 'text-mustard-dark font-semibold' : 'text-mustard-brown hover:text-mustard-dark'}`}
+            >Project Submission</Link>
             <button className="bg-mustard-dark text-white px-4 py-2 rounded-md hover:bg-mustard-brown transition-colors">
               Sign In / Sign Up
             </button>
@@ -76,31 +72,31 @@ const Navbar = ({ currentSection, setCurrentSection }) => {
         {/* Mobile menu */}
         {isOpen && (
           <div className="md:hidden mt-4 pb-4 bg-white rounded-lg shadow-lg p-4">
-            <a 
-              href="#home" 
-              className={`block py-2 ${currentSection === 'home' ? 'text-mustard-dark font-semibold' : 'text-mustard-brown'}`}
-              onClick={() => handleNavClick('home')}
-            >Home</a>
-            <a 
-              href="#about" 
-              className={`block py-2 ${currentSection === 'about' ? 'text-mustard-dark font-semibold' : 'text-mustard-brown'}`}
-              onClick={() => handleNavClick('about')}
-            >About Us</a>
-            <a 
-              href="#gallery" 
-              className={`block py-2 ${currentSection === 'gallery' ? 'text-mustard-dark font-semibold' : 'text-mustard-brown'}`}
-              onClick={() => handleNavClick('gallery')}
-            >Gallery</a>
-            <a 
-              href="#contact" 
-              className={`block py-2 ${currentSection === 'contact' ? 'text-mustard-dark font-semibold' : 'text-mustard-brown'}`}
-              onClick={() => handleNavClick('contact')}
-            >Contact Us</a>
-            <a 
-              href="#project" 
-              className={`block py-2 ${currentSection === 'project' ? 'text-mustard-dark font-semibold' : 'text-mustard-brown'}`}
-              onClick={() => handleNavClick('project')}
-            >Project Submission</a>
+            <Link 
+              to="/" 
+              className={`block py-2 ${isActive('/') ? 'text-mustard-dark font-semibold' : 'text-mustard-brown'}`}
+              onClick={() => setIsOpen(false)}
+            >Home</Link>
+            <Link 
+              to="/about" 
+              className={`block py-2 ${isActive('/about') ? 'text-mustard-dark font-semibold' : 'text-mustard-brown'}`}
+              onClick={() => setIsOpen(false)}
+            >About Us</Link>
+            <Link 
+              to="/gallery" 
+              className={`block py-2 ${isActive('/gallery') ? 'text-mustard-dark font-semibold' : 'text-mustard-brown'}`}
+              onClick={() => setIsOpen(false)}
+            >Gallery</Link>
+            <Link 
+              to="/contact" 
+              className={`block py-2 ${isActive('/contact') ? 'text-mustard-dark font-semibold' : 'text-mustard-brown'}`}
+              onClick={() => setIsOpen(false)}
+            >Contact Us</Link>
+            <Link 
+              to="/project" 
+              className={`block py-2 ${isActive('/project') ? 'text-mustard-dark font-semibold' : 'text-mustard-brown'}`}
+              onClick={() => setIsOpen(false)}
+            >Project Submission</Link>
             <button className="mt-2 bg-mustard-dark text-white px-4 py-2 rounded-md w-full">
               Sign In / Sign Up
             </button>
