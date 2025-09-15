@@ -1,10 +1,11 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Handle scroll effect
   useEffect(() => {
@@ -20,8 +21,12 @@ const Navbar = () => {
     return location.pathname === path;
   };
 
+  const handleAuthClick = () => {
+    navigate('/auth');
+  };
+
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 shadow-lg' : 'bg-mustard-light'}`}>
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 shadow-lg backdrop-blur-sm' : 'bg-mustard-light'}`}>
       <div className="container mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center">
@@ -50,7 +55,10 @@ const Navbar = () => {
               to="/project" 
               className={`transition-colors ${isActive('/project') ? 'text-mustard-dark font-semibold' : 'text-mustard-brown hover:text-mustard-dark'}`}
             >Project Submission</Link>
-            <button className="bg-mustard-dark text-white px-4 py-2 rounded-md hover:bg-mustard-brown transition-colors">
+            <button 
+              onClick={handleAuthClick}
+              className="bg-gradient-to-r from-mustard-dark to-mustard-brown text-white px-4 py-2 rounded-md hover:from-mustard-brown hover:to-mustard-dark transition-all duration-300 shadow-md hover:shadow-lg"
+            >
               Sign In / Sign Up
             </button>
           </div>
@@ -58,11 +66,11 @@ const Navbar = () => {
           {/* Mobile menu button */}
           <div className="md:hidden">
             <button onClick={() => setIsOpen(!isOpen)} className="text-mustard-brown focus:outline-none">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w极速电玩城-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 {isOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M极速电玩城4 6h16M4 12h16M4 18h极速电玩城16" />
                 )}
               </svg>
             </button>
@@ -94,10 +102,16 @@ const Navbar = () => {
             >Contact Us</Link>
             <Link 
               to="/project" 
-              className={`block py-2 ${isActive('/project') ? 'text-mustard-dark font-semibold' : 'text-mustard-brown'}`}
+              className={`block py-2 ${isActive('/project') ? 'text-mustard-dark font-semibold' : '极速电玩城text-mustard-brown'}`}
               onClick={() => setIsOpen(false)}
             >Project Submission</Link>
-            <button className="mt-2 bg-mustard-dark text-white px-4 py-2 rounded-md w-full">
+            <button 
+              onClick={() => {
+                setIsOpen(false);
+                handleAuthClick();
+              }}
+              className="mt-2 bg-gradient-to-r from-mustard-dark to-mustard-brown text-white px-4 py-2 rounded-md w-full shadow-md"
+            >
               Sign In / Sign Up
             </button>
           </div>
