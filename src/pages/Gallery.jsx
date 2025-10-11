@@ -1,129 +1,100 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useMemo, useState } from "react"
+import { galleryService } from "../services/gallery"
 
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [hoveredProject, setHoveredProject] = useState(null)
 
-  const projects = [
-    {
-      id: 1,
-      title: "IoT Smart Home System",
-      category: "iot",
-      image:
-        "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-      description: "A comprehensive smart home automation system with IoT integration and real-time monitoring.",
-    },
-    {
-      id: 2,
-      title: "E-Vehicle Prototype",
-      category: "e-vehicles",
-      image:
-        "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-      description: "Next-generation electric vehicle with extended battery life and eco-friendly design.",
-    },
-    {
-      id: 3,
-      title: "AI-Powered Analytics Dashboard",
-      category: "ai",
-      image:
-        "https://images.unsplash.com/photo-1534723328310-e82dad3ee43f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-      description: "Real-time data visualization with predictive analytics and machine learning capabilities.",
-    },
-    {
-      id: 4,
-      title: "Custom Gaming Laptop Upgrade",
-      category: "hardware",
-      image:
-        "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-      description: "High-performance gaming laptop with custom cooling solution and RGB lighting.",
-    },
-    {
-      id: 5,
-      title: "Mobile App Development",
-      category: "software",
-      image:
-        "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-      description: "Cross-platform mobile application with intuitive user interface and seamless performance.",
-    },
-    {
-      id: 6,
-      title: "VLSI Chip Design",
-      category: "vlsi",
-      image:
-        "https://images.unsplash.com/photo-1597852074816-d933c7d2b988?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-      description: "Advanced chip design with optimized power consumption and enhanced processing capabilities.",
-    },
-    {
-      id: 7,
-      title: "Industrial IoT Solution",
-      category: "iot",
-      image:
-        "https://images.unsplash.com/photo-1563014959739-75bc76f77890?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-      description: "Industrial monitoring system with predictive maintenance and real-time alerts.",
-    },
-    {
-      id: 8,
-      title: "E-Bike Conversion Kit",
-      category: "e-vehicles",
-      image:
-        "https://images.unsplash.com/photo-1571068316344-75bc76f77890?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-      description: "Convert any bicycle to electric with our innovative and easy-to-install conversion kit.",
-    },
-    {
-      id: 9,
-      title: "Machine Learning Model Training",
-      category: "ai",
-      image:
-        "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-      description: "Custom ML models trained on specialized datasets for accurate predictions and insights.",
-    },
-    {
-      id: 10,
-      title: "RAM & SSD Installation",
-      category: "hardware",
-      image:
-        "https://images.unsplash.com/photo-1591799264318-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-      description: "Professional hardware upgrade services for improved system performance and speed.",
-    },
-    {
-      id: 11,
-      title: "Web Application Development",
-      category: "software",
-      image:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-      description: "Responsive web applications built with modern frameworks and cutting-edge technologies.",
-    },
-    {
-      id: 12,
-      title: "Integrated Circuit Design",
-      category: "vlsi",
-      image:
-        "https://images.unsplash.com/photo-1581094794329-c8112cc5e6f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80",
-      description: "Custom integrated circuits designed for specific applications with optimal efficiency.",
-    },
-  ]
+  // new: API-backed state
+  const [items, setItems] = useState([])
+  const [categories, setCategories] = useState([{ id: "all", name: "All Projects" }])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState("")
 
-  const categories = [
-    { id: "all", name: "All Projects" },
-    { id: "iot", name: "IoT" },
-    { id: "e-vehicles", name: "E-Vehicles" },
-    { id: "ai", name: "AI" },
-    { id: "hardware", name: "Hardware" },
-    { id: "software", name: "Software" },
-    { id: "vlsi", name: "VLSI" },
-  ]
+  useEffect(() => {
+    let isMounted = true
+
+    const load = async () => {
+      try {
+        setLoading(true)
+        setError("")
+        // fetch categories and items in parallel
+        const [cats, list] = await Promise.all([
+          galleryService.getCategories().catch(() => []),
+          galleryService.getItems().catch(() => []),
+        ])
+
+        if (!isMounted) return
+
+        // normalize categories: accept string[] or {id/name}[]
+        const normalizedCats =
+          Array.isArray(cats) && cats.length > 0
+            ? cats.map((c) =>
+                typeof c === "string"
+                  ? { id: c, name: c }
+                  : { id: c.id || c.slug || c.value || c.name, name: c.name || c.label || c.id },
+              )
+            : []
+
+        setCategories([{ id: "all", name: "All Projects" }, ...normalizedCats])
+        setItems(Array.isArray(list) ? list : [])
+      } catch (e) {
+        setError("Failed to load gallery. Please try again.")
+      } finally {
+        if (isMounted) setLoading(false)
+      }
+    }
+
+    load()
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  const normalizedItems = useMemo(() => {
+    return items.map((it) => ({
+      id: it.id || it._id || Math.random().toString(36).slice(2),
+      title: it.title || it.name || "Untitled",
+      category: it.category || it.type || "other",
+      image: it.image || it.imageUrl || (Array.isArray(it.images) && it.images[0]) || "/project-management-team.png",
+      description: it.description || it.summary || "",
+    }))
+  }, [items])
 
   const filteredProjects =
-    selectedCategory === "all" ? projects : projects.filter((project) => project.category === selectedCategory)
+    selectedCategory === "all"
+      ? normalizedItems
+      : normalizedItems.filter(
+          (project) => String(project.category).toLowerCase() === String(selectedCategory).toLowerCase(),
+        )
+
+  if (loading) {
+    return (
+      <div className="pt-24 pb-16 min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[color:var(--primary)]"></div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="pt-24 pb-16 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600">{error}</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="pt-24 pb-16 min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="pt-24 pb-16 min-h-screen bg-app relative">
+      <div className="animated-bg pointer-events-none" aria-hidden="true"></div>
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">Project Gallery</h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <h1 className="text-5xl font-bold text-app mb-4">Project Gallery</h1>
+          <p className="text-xl text-secondary max-w-3xl mx-auto">
             Explore our innovative projects across various domains of technology and creativity.
           </p>
         </div>
@@ -136,8 +107,8 @@ const Gallery = () => {
               onClick={() => setSelectedCategory(category.id)}
               className={`px-6 py-3 rounded-full transition-all duration-300 font-medium ${
                 selectedCategory === category.id
-                  ? "bg-blue-600 text-white shadow-lg"
-                  : "bg-white text-gray-700 hover:bg-blue-50 hover:text-blue-600 shadow-md"
+                  ? "bg-[color:var(--primary)] text-white shadow-soft"
+                  : "bg-surface text-secondary hover:text-app shadow-subtle border border-token"
               }`}
             >
               {category.name}
@@ -149,15 +120,16 @@ const Gallery = () => {
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="group relative bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-[1.02] aspect-square"
+              className="group relative bg-surface rounded-xl overflow-hidden shadow-subtle hover:shadow-lift transition-all duration-500 transform hover:scale-[1.02] aspect-square"
               onMouseEnter={() => setHoveredProject(project.id)}
               onMouseLeave={() => setHoveredProject(null)}
             >
               <div className="w-full h-full overflow-hidden relative">
                 <img
-                  src={project.image || "/placeholder.svg"}
+                  src={project.image || "/placeholder.svg?height=400&width=400&query=project"}
                   alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  crossOrigin="anonymous"
                 />
 
                 <div
@@ -170,8 +142,8 @@ const Gallery = () => {
                       hoveredProject === project.id ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
                     }`}
                   >
-                    <span className="inline-block bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full mb-3">
-                      {project.category.toUpperCase()}
+                    <span className="inline-block bg-[color:var(--primary)] text-white text-xs font-bold px-3 py-1 rounded-full mb-3">
+                      {String(project.category).toUpperCase()}
                     </span>
                     <h3 className="text-white font-bold text-lg mb-2 leading-tight">{project.title}</h3>
                     <p className="text-gray-200 text-sm leading-relaxed">{project.description}</p>
@@ -182,12 +154,9 @@ const Gallery = () => {
           ))}
         </div>
 
-        {/* Load More Button */}
-        <div className="text-center mt-16">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-3 rounded-lg transition-colors shadow-md hover:shadow-lg">
-            Load More Projects
-          </button>
-        </div>
+        {filteredProjects.length === 0 && (
+          <p className="text-center text-secondary mt-12">No projects found in this category.</p>
+        )}
       </div>
     </div>
   )
