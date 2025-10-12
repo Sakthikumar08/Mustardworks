@@ -8,16 +8,25 @@
   --bg: #f8fafc; /* neutral-50 */
   --surface: #ffffff;
   --surface-2: #f1f5f9; /* neutral-100 */
-  --text: #0f172a; /* slate-900 */
+  --text: #0b1220; /* deep slate */
   --secondary: #475569; /* slate-600 */
-  --primary: #2563eb; /* blue-600 */
-  --primary-ghost: rgba(37, 99, 235, 0.12);
-  --accent: #14b8a6; /* teal-500 */
+
+  /* Primary (Mustard/Amber) + Accent (Teal) */
+  --primary: #d97706; /* amber-600 */
+  --primary-ghost: rgba(217, 119, 6, 0.12);
+  --accent: #0d9488; /* teal-600 */
+  --accent-ghost: rgba(13, 148, 136, 0.12);
+
   --border: #e2e8f0; /* neutral-200 */
   --danger: #ef4444; /* red-500 */
   --shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
   --shadow-subtle: 0 6px 18px rgba(2, 6, 23, 0.06);
   --nav-bg: rgba(248, 250, 252, 0.7);
+
+  /* grid */
+  --grid-line: rgba(2, 6, 23, 0.08);
+  --grid-square-1: rgba(217, 119, 6, 0.1); /* primary ghosty */
+  --grid-square-2: rgba(13, 148, 136, 0.1); /* accent ghosty */
 }
 
 [data-theme="dark"] {
@@ -26,14 +35,23 @@
   --surface-2: #111827; /* gray-900-ish */
   --text: #e5e7eb; /* gray-200 */
   --secondary: #94a3b8; /* slate-400 */
-  --primary: #60a5fa; /* blue-400 */
-  --primary-ghost: rgba(96, 165, 250, 0.15);
-  --accent: #2dd4bf; /* teal-400 */
+
+  /* Slightly brighter in dark for vibrancy */
+  --primary: #f59e0b; /* amber-500 */
+  --primary-ghost: rgba(245, 158, 11, 0.18);
+  --accent: #14b8a6; /* teal-500 */
+  --accent-ghost: rgba(20, 184, 166, 0.16);
+
   --border: #1f2937; /* gray-800 */
   --danger: #f87171; /* red-400 */
   --shadow: 0 12px 32px rgba(2, 6, 23, 0.55);
   --shadow-subtle: 0 8px 24px rgba(2, 6, 23, 0.4);
   --nav-bg: rgba(15, 23, 42, 0.55);
+
+  /* grid */
+  --grid-line: rgba(148, 163, 184, 0.14);
+  --grid-square-1: rgba(245, 158, 11, 0.14);
+  --grid-square-2: rgba(20, 184, 166, 0.14);
 }
 
 /* Utilities mapped to tokens */
@@ -69,11 +87,11 @@
   border-radius: 0.5rem;
   font-weight: 600;
   transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 6px 16px rgba(217, 119, 6, 0.25);
 }
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.35);
+  box-shadow: 0 10px 24px rgba(217, 119, 6, 0.35);
 }
 .btn-primary:active {
   transform: translateY(0);
@@ -178,4 +196,47 @@ html {
 .gallery-item:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Matrix grid + squares animation */
+.matrix-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px, 48px 48px;
+  opacity: 0.6;
+  -webkit-mask-image: radial-gradient(120% 80% at 50% 40%, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0) 70%);
+  mask-image: radial-gradient(120% 80% at 50% 40%, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0) 70%);
+}
+
+.matrix-squares {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.matrix-square {
+  position: absolute;
+  border-radius: 6px;
+  background: var(--grid-square-1);
+  animation: drift-square 12s ease-in-out infinite alternate;
+  box-shadow: 0 8px 24px rgba(2, 6, 23, 0.08);
+}
+
+.matrix-square.alt {
+  background: var(--grid-square-2);
+  animation-duration: 16s;
+}
+
+@keyframes drift-square {
+  from {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  to {
+    transform: translate3d(24px, -24px, 0) rotate(3deg);
+  }
 }

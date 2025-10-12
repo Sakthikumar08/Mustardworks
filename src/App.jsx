@@ -14,6 +14,7 @@ import ProtectedRoute from "./components/ProtectedRoute"
 import { authService } from "./services/auth"
 import { ThemeProvider } from "./context/ThemeContext"
 import Profile from "./pages/Profile"
+import BackgroundGrid from "./components/BackgroundGrid"
 
 function App() {
   const [user, setUser] = useState(null)
@@ -67,7 +68,7 @@ function App() {
         <div className="App bg-app text-app min-h-screen">
           <Navbar user={user} setUser={setUser} />
           {/* subtle animated background for all pages */}
-          <div className="animated-bg pointer-events-none" aria-hidden="true"></div>
+          <BackgroundGrid />
           <Routes>
             {/* Public routes */}
             <Route path="/" element={<Home />} />
