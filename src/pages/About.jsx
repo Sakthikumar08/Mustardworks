@@ -1,109 +1,121 @@
 import { Link } from "react-router-dom";
-import { Linkedin, Github, Twitter, Youtube, Figma } from 'lucide-react';
+import { Linkedin, Github, Twitter, Youtube, Figma, Instagram } from 'lucide-react';
 import img from "../assets/def_pic.png"
-
 import img3 from "../assets/img2.jpg"
 
+// Import team member images
+import kavi from "../assets/kavi.jpeg";
+import stephi from "../assets/stephi.jpeg";
+import renisha from "../assets/renisha.jpeg";
+import vishwa from "../assets/vishwa.jpeg";
+import aaron from "../assets/aaron.jpeg";
+import sakthi from "../assets/sakthi.JPG";
+import yahyaa from "../assets/yadyaa.jpeg";
+import srinath from "../assets/srinath.jpeg";
+import rajesh from "../assets/rajesh.jpeg";
+import bala from "../assets/bala.jpeg";
+
 const About = () => {
-  const teamMembers = [
+ const teamMembers = [
   {
     name: "Kaviarasu S",
     role: "Founder & Proprietor",
-    expertise: "Hardware, Embedded Systems, VLSI, IoT, E-Vehicles specialist with extensive industry experience",
-    skills: ["Hardware", "Embedded Systems", "VLSI", "IoT", "E-Vehicles"],
+    expertise: "Hardware, Embedded Systems, VLSI, IoT, and E-Vehicles.",
+    image: kavi,
+    skills: ["Embedded Systems", "IoT", "VLSI", "SystemVerilog", "Raspberry Pi", "Arduino"],
     socialLinks: [
-  { platform: "LinkedIn", url: "#", icon: <Linkedin size={18} /> },
-  { platform: "GitHub", url: "#", icon: <Github size={18} /> },
-  { platform: "Twitter", url: "#", icon: <Twitter size={18} /> }
-]
+      { platform: "LinkedIn", url: "https://linkedin.com/in/kaviaficionado", icon: <Linkedin size={18} /> },
+      { platform: "GitHub", url: "https://github.com/kaviaficionado", icon: <Github size={18} /> },
+    ]
   },
   {
-    name: "Stephi Priscilla S", 
-    role: "ML Engineer",
-    expertise: "Machine Learning specialist focused on AI model development and data-driven solutions",
-    skills: ["Machine Learning", "Python", "AI Models", "Data Science"],
+    name: "Stephi Priscilla S",
+    role: "Machine Learning Engineer",
+    expertise: "Specialized in developing and optimizing ML models for embedded and IoT-based AI systems.",
+    image: stephi,
+    skills: ["Python", "TensorFlow", "Data Science", "Model Optimization", "ML Algorithms"],
     socialLinks: [
-  { platform: "LinkedIn", url: "#", icon: <Linkedin size={18} /> },
-  { platform: "GitHub", url: "#", icon: <Github size={18} /> },
-  { platform: "Twitter", url: "#", icon: <Twitter size={18} /> }
-]
+      { platform: "LinkedIn", url: "https://linkedin.com/in/stephi-priscilla-b0ab13259", icon: <Linkedin size={18} /> },
+      { platform: "GitHub", url: "https://github.com/stp280105", icon: <Github size={18} /> }
+    ]
   },
   {
     name: "Renisha V",
-    role: "ECE Student Intern", 
-    expertise: "Electronics and Communication Engineering student with passion for hardware innovation",
-    skills: ["Electronics", "Communication", "Hardware", "Embedded"],
+    role: "VLSI Engineer",
+    expertise: "Focused on RTL design, SystemVerilog-based verification, and SoC-level implementation for advanced semiconductor systems.",
+    image: renisha,
+    skills: ["VLSI", "SystemVerilog", "Digital Design", "FPGA", "EDA Tools"],
     socialLinks: [
-  { platform: "LinkedIn", url: "#", icon: <Linkedin size={18} /> },
-  { platform: "GitHub", url: "#", icon: <Github size={18} /> },
-  { platform: "Twitter", url: "#", icon: <Twitter size={18} /> }
-]
+      { platform: "LinkedIn", url: "https://linkedin.com/in/renisha", icon: <Linkedin size={18} /> },
+      { platform: "GitHub", url: "https://github.com/RenishaV", icon: <Github size={18} /> }
+    ]
   },
   {
     name: "Viswanathan S",
-    role: "Core Team Member",
-    expertise: "Dedicated professional with strong work ethic and commitment to project excellence",
-    skills: ["Project Management", "Team Coordination", "Quality Assurance"],
-    socialLinks: [
-  { platform: "LinkedIn", url: "#", icon: <Linkedin size={18} /> },
-  { platform: "GitHub", url: "#", icon: <Github size={18} /> },
-  { platform: "Twitter", url: "#", icon: <Twitter size={18} /> }
-]
+    role: "Operations & Marketing Manager",
+    expertise: "Oversees daily operations, client coordination, and marketing strategies to ensure smooth project execution and brand growth at MustardWorks.",
+    image: vishwa,
+    skills: ["Team Management", "Client Relations", "Marketing", "Operations", "Brand Coordination"],
   },
   {
-    name: "Rajesh R",
-    role: "Technical Solutions Specialist",
-    expertise: "Laptop and hardware technical solutions expert with comprehensive troubleshooting skills",
-    skills: ["Hardware Repair", "Technical Support", "Troubleshooting", "Laptop Solutions"],
-socialLinks: [
-  { platform: "LinkedIn", url: "#", icon: <Linkedin size={18} /> },
-  { platform: "GitHub", url: "#", icon: <Github size={18} /> },
-  { platform: "Twitter", url: "#", icon: <Twitter size={18} /> }
-]
+    name: "Aaron Caleb",
+    role: "IoT & Automation Engineer",
+    expertise: "Specializes in designing and developing real-time IoT automation systems integrating sensors, actuators, and cloud-based monitoring for industrial and smart applications.",
+    image: aaron,
+    skills: ["IoT", "Automation", "ESP32", "Sensor Integration", "Blynk", "Cloud Monitoring"],
+    socialLinks: [
+      { platform: "LinkedIn", url: "https://linkedin.com/in/aaroncaleb", icon: <Linkedin size={18} /> },
+      { platform: "GitHub", url: "https://github.com/Thatalivemango", icon: <Github size={18} /> }
+    ]
   },
   {
     name: "Sakthikumar P",
     role: "Website Developer",
-    expertise: "Full-stack web development with modern frameworks and responsive design expertise",
-    skills: ["React", "Node.js", "JavaScript", "Web Development"],
-   socialLinks: [
-  { platform: "LinkedIn", url: "#", icon: <Linkedin size={18} /> },
-  { platform: "GitHub", url: "#", icon: <Github size={18} /> },
-  { platform: "Twitter", url: "#", icon: <Twitter size={18} /> }
-]
+    expertise: "Frontend developer skilled in creating modern, responsive websites for MustardWorks and clients.",
+    image: sakthi,
+    skills: ["React", "UI/UX", "Java", "Node", "Javascript"],
+    socialLinks: [
+      { platform: "LinkedIn", url: "https://linkedin.com/in/sakthikumar08", icon: <Linkedin size={18} /> },
+      { platform: "GitHub", url: "https://github.com/Sakthikumar08", icon: <Github size={18} /> },
+       { platform: "Instagram", url: "https://www.instagram.com/sakthi.kumar21?igsh=MWM4aXQxZGQ4bGV2aw==", icon: <Instagram size={18} /> }
+    ]
   },
   {
     name: "Muhammad Yahyaa A",
     role: "App Developer & ML Engineer",
-    expertise: "Cross-platform mobile application development combined with machine learning integration",
-    skills: ["Mobile Development", "ML Integration", "Flutter", "React Native"],
+    expertise: "Develops mobile applications integrated with machine learning functionalities for smart systems.",
+    image: yahyaa,
+    skills: ["Flutter", "Python", "Machine Learning", "API Integration", "Firebase"],
     socialLinks: [
-  { platform: "LinkedIn", url: "#", icon: <Linkedin size={18} /> },
-  { platform: "GitHub", url: "#", icon: <Github size={18} /> },
-  { platform: "Twitter", url: "#", icon: <Twitter size={18} /> }
-]
-  },
-  {
-    name: "Balaganesh M",
-    role: "Portrait Artist",
-    expertise: "Professional portrait sketching with exceptional attention to detail and artistic expression",
-    skills: ["Portrait Sketching", "Artistic Design", "Creative Visualization"],
-   socialLinks: [
-  { platform: "LinkedIn", url: "#", icon: <Linkedin size={18} /> },
-  { platform: "GitHub", url: "#", icon: <Github size={18} /> },
-  { platform: "Twitter", url: "#", icon: <Twitter size={18} /> }
-]
+      { platform: "LinkedIn", url: "https://linkedin.com/in/muhammad-yahyaa-67a4b8250", icon: <Linkedin size={18} /> },
+    ]
   },
   {
     name: "Srinath K",
     role: "Biotech Engineer",
-    expertise: "Biotechnology engineering with focus on innovative solutions in healthcare and life sciences",
-    skills: ["Biotechnology", "Healthcare", "Research", "Life Sciences"],
+    expertise: "Provides biotech insights and research collaboration for interdisciplinary innovation.",
+    image: srinath,
+    skills: ["Biotech", "Research", "Analysis", "Lab Automation"],
     socialLinks: [
-  { platform: "LinkedIn", url: "#", icon: <Linkedin size={18} /> },
-  { platform: "GitHub", url: "#", icon: <Github size={18} /> },
-  { platform: "Twitter", url: "#", icon: <Twitter size={18} /> }
-]
+      { platform: "LinkedIn", url: "https://linkedin.com/in/srinath-k-476203383", icon: <Linkedin size={18} /> },
+    ]
+  },
+  {
+    name: "Rajesh R",
+    role: "Laptop Technical Solutions",
+    expertise: "Expert in laptop hardware upgrades, RAM/ROM expansion, and Wi-Fi card integrations.",
+    image: rajesh,
+    skills: ["Laptop Repair", "RAM/ROM Upgrade", "Wi-Fi Card", "System Optimization"],
+  },
+  {
+    name: "Balaganesh M",
+    role: "Portrait Sketching Artist",
+    expertise: "Creates realistic pencil sketches, concept arts, and creative illustrations for clients and events.",
+    image: bala,
+    skills: ["Pencil Sketching", "Portraits", "Creative Design", "Shading", "Illustration"],
+    socialLinks: [
+      { platform: "Instagram", url: "https://www.instagram.com/bg_artzzz?igsh=c3dxNDh6MG5xa2R1", icon: <Instagram size={18} /> }
+    ]
   }
 ];
 
@@ -141,7 +153,8 @@ socialLinks: [
           <div className="relative">
             <img
               src={img3}
-              className="rounded-lg shadow-xl"
+              alt="MustardWorks Team"
+              className="rounded-lg shadow-xl w-full"
             />
             <div className="absolute -bottom-6 -left-6 bg-[color:var(--primary)] text-white p-4 rounded-lg shadow-lg">
               <p className="font-semibold">Since 2015</p>
@@ -150,97 +163,99 @@ socialLinks: [
           </div>
         </div>
 
-       {/* Team Section */}
-{/* Team Section */}
-<div className="mb-20">
-  <h2 className="text-4xl font-bold text-center text-app mb-4">Meet Our Innovators</h2>
-  <p className="text-secondary text-center text-lg mb-12 max-w-2xl mx-auto">
-    The brilliant minds behind MustardWorks, dedicated to turning your ideas into exceptional digital solutions
-  </p>
-  
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-    {teamMembers.map((member, index) => (
-      <div
-        key={index}
-        className="group relative bg-surface rounded-2xl overflow-hidden shadow-subtle hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100"
-      >
-        {/* Background Gradient Effect */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        
-        {/* Profile Image Container with Elegant Frame */}
-        <div className="relative overflow-hidden pt-8 px-8">
-          <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 p-2">
-            <img 
-              src={img}
-              alt={member.name}
-              className="w-full h-full object-cover rounded-xl transition-transform duration-700 group-hover:scale-105" 
-            />
-            
-            {/* Shine Effect on Hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="relative p-6 text-center">
-          {/* Name & Role with Professional Typography */}
-          <div className="mb-4">
-            <h3 className="text-xl font-bold text-app group-hover:text-primary transition-colors duration-300 mb-1">
-              {member.name}
-            </h3>
-            <div className="w-12 h-0.5 bg-gradient-to-r from-primary to-accent mx-auto mb-2 opacity-60"></div>
-            <p className="text-accent font-semibold text-sm tracking-wide">{member.role}</p>
-          </div>
-
-          {/* Expertise */}
-          <p className="text-secondary text-sm leading-relaxed mb-4 line-clamp-2">
-            {member.expertise}
+        {/* Team Section */}
+        <div className="mb-20">
+          <h2 className="text-4xl font-bold text-center text-app mb-4">Meet Our Innovators</h2>
+          <p className="text-secondary text-center text-lg mb-12 max-w-2xl mx-auto">
+            The brilliant minds behind MustardWorks, dedicated to turning your ideas into exceptional digital solutions
           </p>
-
-          {/* Skills Tags */}
-          {member.skills && (
-            <div className="flex flex-wrap justify-center gap-1.5 mb-6">
-              {member.skills.slice(0, 3).map((skill, skillIndex) => (
-                <span
-                  key={skillIndex}
-                  className="px-2.5 py-1 bg-gradient-to-r from-primary/10 to-accent/10 text-primary text-xs rounded-full font-medium border border-primary/20"
-                >
-                  {skill}
-                </span>
-              ))}
-              {member.skills.length > 3 && (
-                <span className="px-2.5 py-1 bg-secondary/5 text-secondary text-xs rounded-full font-medium border border-secondary/20">
-                  +{member.skills.length - 3}
-                </span>
-              )}
-            </div>
-          )}
-
-          {/* Social Links - Professional Style */}
-          <div className="flex justify-center space-x-3">
-            {member.socialLinks?.map((social, idx) => (
-              <a
-                key={idx}
-                href={social.url}
-                className="w-10 h-10 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white hover:border-primary hover:scale-110 transition-all duration-300 shadow-sm hover:shadow-lg group/social"
-                aria-label={`Connect with ${member.name} on ${social.platform}`}
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {teamMembers.map((member, index) => (
+              <div
+                key={index}
+                className="group relative bg-surface rounded-2xl overflow-hidden shadow-subtle hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100"
               >
-                <span className="text-lg group-hover/social:scale-110 transition-transform duration-200">
-                  {social.icon}
-                </span>
-              </a>
+                {/* Background Gradient Effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Profile Image Container with Elegant Frame */}
+                <div className="relative overflow-hidden pt-8 px-8">
+                  <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-gradient-to-br from-primary/10 to-accent/10 p-2">
+                    <img 
+                      src={member.image || img}
+                      alt={member.name}
+                      className="w-full h-full object-cover rounded-xl transition-transform duration-700 group-hover:scale-105" 
+                    />
+                    
+                    {/* Shine Effect on Hover */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="relative p-6 text-center">
+                  {/* Name & Role with Professional Typography */}
+                  <div className="mb-4">
+                    <h3 className="text-xl font-bold text-app group-hover:text-primary transition-colors duration-300 mb-1">
+                      {member.name}
+                    </h3>
+                    <div className="w-12 h-0.5 bg-gradient-to-r from-primary to-accent mx-auto mb-2 opacity-60"></div>
+                    <p className="text-accent font-semibold text-sm tracking-wide">{member.role}</p>
+                  </div>
+
+                  {/* Expertise */}
+                  <p className="text-secondary text-sm leading-relaxed mb-4 line-clamp-2">
+                    {member.expertise}
+                  </p>
+
+                  {/* Skills Tags */}
+                  {member.skills && (
+                    <div className="flex flex-wrap justify-center gap-1.5 mb-6">
+                      {member.skills.slice(0, 3).map((skill, skillIndex) => (
+                        <span
+                          key={skillIndex}
+                          className="px-2.5 py-1 bg-gradient-to-r from-primary/10 to-accent/10 text-primary text-xs rounded-full font-medium border border-primary/20"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                      {member.skills.length > 3 && (
+                        <span className="px-2.5 py-1 bg-secondary/5 text-secondary text-xs rounded-full font-medium border border-secondary/20">
+                          +{member.skills.length - 3}
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Social Links - Professional Style */}
+                  <div className="flex justify-center space-x-3">
+                    {member.socialLinks?.map((social, idx) => (
+                      <a
+                        key={idx}
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 bg-white border border-gray-200 rounded-xl flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white hover:border-primary hover:scale-110 transition-all duration-300 shadow-sm hover:shadow-lg group/social"
+                        aria-label={`Connect with ${member.name} on ${social.platform}`}
+                      >
+                        <span className="text-lg group-hover/social:scale-110 transition-transform duration-200">
+                          {social.icon}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Professional Accent Elements */}
+                <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"></div>
+                <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200"></div>
+                <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300"></div>
+                <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-400"></div>
+              </div>
             ))}
           </div>
         </div>
-
-        {/* Professional Accent Elements */}
-        <div className="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"></div>
-        <div className="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200"></div>
-        <div className="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300"></div>
-        <div className="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-400"></div>
-      </div>
-    ))}
-  </div>
 
         {/* Expertise Section */}
         <div className="mb-16">
@@ -334,7 +349,6 @@ socialLinks: [
           </Link>
         </div>
       </div>
-    </div>
     </div>
   )
 }

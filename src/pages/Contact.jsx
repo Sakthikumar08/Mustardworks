@@ -202,7 +202,10 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-app text-lg">Address</h3>
-                    <p className="text-secondary">123 Innovation Drive, Tech City, TC 12345</p>
+                    <p className="text-secondary">MustardWorks™
+No. 1/1278C, 1st Floor, 3rd Street,
+South Bethal Nagar, Injambakkam,
+Chennai – 600115, Tamil Nadu, India.</p>
                   </div>
                 </div>
               </div>
@@ -214,11 +217,11 @@ const Contact = () => {
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-secondary">Monday - Friday</span>
-                  <span className="font-semibold text-[color:var(--primary)]">9:00 AM - 6:00 PM</span>
+                  <span className="font-semibold text-[color:var(--primary)]">8:00 AM - 10:00 PM</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-secondary">Saturday</span>
-                  <span className="font-semibold text-[color:var(--primary)]">10:00 AM - 4:00 PM</span>
+                  <span className="font-semibold text-[color:var(--primary)]">10:00 AM - 10:00 PM</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-secondary">Sunday</span>

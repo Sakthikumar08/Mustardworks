@@ -10,7 +10,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'https://mustardworks-backend1.onrender.com',
+        target: ' http://localhost:5000',
         changeOrigin: true
       }
     }
