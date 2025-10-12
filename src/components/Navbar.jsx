@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { authService } from "../services/auth"
 import ThemeToggle from "./ThemeToggle"
+import MWlogo from "../assets/Mustardworks-.png"
 
 const Navbar = ({ user, setUser }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -59,9 +60,13 @@ const Navbar = ({ user, setUser }) => {
         <div className="flex justify-between items-center">
           {/* left */}
           <Link to="/" className="flex items-center">
-            <div className="logo-placeholder">MW</div>
-            <span className="text-xl font-bold text-app ml-3">MustardWorks</span>
-          </Link>
+  <img 
+    src={MWlogo}
+    alt="MustardWorks" 
+    className="h-8 w-8" // Adjust height and width as needed
+  />
+  <span className="text-xl font-bold text-app ml-3">MustardWorks</span>
+</Link>
 
           {/* center links */}
           <div className="hidden md:flex items-center gap-6">
