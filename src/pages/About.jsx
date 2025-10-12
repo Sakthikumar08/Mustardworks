@@ -242,16 +242,6 @@ socialLinks: [
     ))}
   </div>
 
-  {/* Call to Action */}
-  <div className="text-center mt-16">
-    <div className="inline-flex flex-col items-center">
-      <p className="text-secondary text-lg mb-4">Want to join our innovative team?</p>
-      <button className="px-8 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:scale-105 shadow-lg">
-        Explore Careers
-      </button>
-    </div>
-  </div>
-</div>
         {/* Expertise Section */}
         <div className="mb-16">
           <h2 className="text-3xl font-bold text-center text-app mb-12">Our Expertise</h2>
@@ -345,7 +335,8 @@ socialLinks: [
         </div>
       </div>
     </div>
+    </div>
   )
 }
 
-export default About
+export default About;
