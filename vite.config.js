@@ -6,13 +6,5 @@ export default defineConfig({
   plugins: [react({
     include: ["**/*.js", "**/*.jsx"] // Process both .js and .jsx files as JSX
   })],
-  server: {
-    port: 5173,
-    proxy: {
-      '/api': {
-        target: 'https://mustardworks-backend.onrender.com',
-        changeOrigin: true
-      }
-    }
-  }
+ 
 })
