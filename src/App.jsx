@@ -20,27 +20,43 @@ function App() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  // In your App.js
+  // Check authentication on app load and persist user session
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        console.log("[v0] Checking authentication status")
+        console.log("[AUTH] Checking authentication status on app load")
         const token = authService.getToken()
-        console.log("[v0] Token found:", !!token, token ? token.substring(0, 20) + "..." : "No token")
+        console.log("[AUTH] Token found:", !!token, token ? token.substring(0, 20) + "..." : "No token")
 
         if (authService.isAuthenticated()) {
-          console.log("[v0] Token exists, verifying with server...")
-          const userData = await authService.getCurrentUser()
-          console.log("[v0] Server returned user data:", userData)
-          // normalize common shapes: {user}, {data:{user}}, or raw user
-          const normalizedUser = userData?.user || userData?.data?.user || userData
-          setUser(normalizedUser || null)
+          console.log("[AUTH] Token exists, verifying with server...")
+          try {
+            const userData = await authService.getCurrentUser()
+            console.log("[AUTH] Server returned user data:", userData)
+            // normalize common shapes: {user}, {data:{user}}, or raw user
+            const normalizedUser = userData?.user || userData?.data?.user || userData
+            
+            if (normalizedUser) {
+              setUser(normalizedUser)
+              console.log("[AUTH] User authenticated:", normalizedUser.email)
+            } else {
+              console.warn("[AUTH] Could not normalize user data")
+              localStorage.removeItem("token")
+              setUser(null)
+            }
+          } catch (verifyError) {
+            console.error("[AUTH] Token verification failed:", verifyError.message)
+            // Token is invalid or expired, clear it
+            localStorage.removeItem("token")
+            setUser(null)
+          }
         } else {
-          console.log("[v0] No token found")
+          console.log("[AUTH] No token found")
           setUser(null)
         }
       } catch (error) {
-        console.error("[v0] Authentication check failed:", error)
+        console.error("[AUTH] Authentication check failed:", error)
+        localStorage.removeItem("token")
         setUser(null)
       } finally {
         setLoading(false)

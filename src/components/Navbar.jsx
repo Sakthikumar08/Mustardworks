@@ -39,7 +39,7 @@ const Navbar = ({ user, setUser }) => {
   }
 
   const handleProjectSubmissionClick = (e) => {
-    console.log("[v0] Project submission clicked, user:", user)
+    console.log("[NAVBAR] Project submission clicked, user:", user)
     if (!user) {
       e.preventDefault()
       navigate("/auth", { state: { from: "/project-submission" } })
@@ -47,9 +47,18 @@ const Navbar = ({ user, setUser }) => {
   }
 
   const logout = async () => {
-    await authService.logout()
-    setUser(null)
-    window.location.href = "/"
+    try {
+      console.log("[NAVBAR] Logging out user")
+      await authService.logout()
+      setUser(null)
+      console.log("[NAVBAR] Logout successful, redirecting to home")
+      navigate("/", { replace: true })
+    } catch (error) {
+      console.error("[NAVBAR] Logout error:", error)
+      // Even on error, clear user state and redirect
+      setUser(null)
+      navigate("/", { replace: true })
+    }
   }
 
   return (

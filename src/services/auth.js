@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || " http://localhost:5173/api"
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://mustardworks-backend.onrender.com/api"
 
 // Create axios instance
 const api = axios.create({
@@ -26,10 +26,21 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.error("[AUTH API ERROR]", {
+      status: error.response?.status,
+      message: error.response?.data?.message,
+      url: error.config?.url
+    })
+    
     if (error.response?.status === 401) {
       // Token expired or invalid
+      console.warn("[AUTH] 401 Unauthorized - Clearing token and redirecting to login")
       localStorage.removeItem("token")
-      window.location.href = "/auth"
+      
+      // Only redirect if not already on auth page
+      if (window.location.pathname !== "/auth") {
+        window.location.href = "/auth"
+      }
     }
     return Promise.reject(error)
   },
@@ -38,63 +49,123 @@ api.interceptors.response.use(
 export const authService = {
   // Register new user
   register: async (userData) => {
-    const response = await api.post("/auth/register", userData)
-    const data = response?.data || response
-    // handle common backend variants for token key
-    const token = data?.token || data?.accessToken || data?.jwt || data?.authToken || data?.data?.token
+    try {
+      console.log("[AUTH SERVICE] Registering user:", { email: userData.email })
+      const response = await api.post("/auth/register", userData)
+      const data = response?.data || response
+      
+      console.log("[AUTH SERVICE] Register response:", {
+        success: data?.success,
+        hasToken: !!data?.token,
+        hasUser: !!data?.data?.user || !!data?.user
+      })
+      
+      // handle common backend variants for token key
+      const token = data?.token || data?.accessToken || data?.jwt || data?.authToken || data?.data?.token
 
-    if (token) {
-      localStorage.setItem("token", token)
-      console.log("[v0] Token stored on register:", token.substring(0, 20) + "...")
-    } else {
-      console.log("[v0] No token found in register response:", data)
+      if (token) {
+        localStorage.setItem("token", token)
+        console.log("[AUTH SERVICE] Token stored on register:", token.substring(0, 20) + "...")
+      } else {
+        console.error("[AUTH SERVICE] No token found in register response:", data)
+      }
+
+      return data
+    } catch (error) {
+      console.error("[AUTH SERVICE] Register failed:", error.response?.data || error.message)
+      throw error
     }
-
-    return data
   },
 
   // Login user
   login: async (credentials) => {
-    const response = await api.post("/auth/login", credentials)
-    const data = response?.data || response
+    try {
+      console.log("[AUTH SERVICE] Logging in user:", { email: credentials.email })
+      const response = await api.post("/auth/login", credentials)
+      const data = response?.data || response
 
-    const token = data?.token || data?.accessToken || data?.jwt || data?.authToken || data?.data?.token
+      console.log("[AUTH SERVICE] Login response:", {
+        success: data?.success,
+        hasToken: !!data?.token,
+        hasUser: !!data?.data?.user || !!data?.user
+      })
 
-    if (token) {
-      localStorage.setItem("token", token)
-      console.log("[v0] Token stored on login:", token.substring(0, 20) + "...")
-    } else {
-      console.log("[v0] No token found in login response:", data)
+      const token = data?.token || data?.accessToken || data?.jwt || data?.authToken || data?.data?.token
+
+      if (token) {
+        localStorage.setItem("token", token)
+        console.log("[AUTH SERVICE] Token stored on login:", token.substring(0, 20) + "...")
+      } else {
+        console.error("[AUTH SERVICE] No token found in login response:", data)
+      }
+
+      return data
+    } catch (error) {
+      console.error("[AUTH SERVICE] Login failed:", error.response?.data || error.message)
+      throw error
     }
-
-    return data
   },
 
   // Get current user
   getCurrentUser: async () => {
-    const response = await api.get("/auth/me")
-    const data = response?.data || response
-    return data?.user || data?.data?.user || data
+    try {
+      console.log("[AUTH SERVICE] Fetching current user")
+      const response = await api.get("/auth/me")
+      const data = response?.data || response
+      console.log("[AUTH SERVICE] getCurrentUser response:", {
+        success: data?.success,
+        hasUser: !!data?.user || !!data?.data?.user
+      })
+      return data?.user || data?.data?.user || data
+    } catch (error) {
+      console.error("[AUTH SERVICE] getCurrentUser failed:", error.response?.data || error.message)
+      throw error
+    }
   },
 
   // Update password
   updatePassword: async (passwordData) => {
-    const response = await api.patch("/auth/update-password", passwordData)
-    return response.data
+    try {
+      console.log("[AUTH SERVICE] Updating password")
+      const response = await api.patch("/auth/update-password", passwordData)
+      const data = response?.data || response
+      
+      // If new token is returned, update it
+      const token = data?.token || data?.accessToken || data?.jwt
+      if (token) {
+        localStorage.setItem("token", token)
+        console.log("[AUTH SERVICE] New token stored after password update")
+      }
+      
+      return data
+    } catch (error) {
+      console.error("[AUTH SERVICE] updatePassword failed:", error.response?.data || error.message)
+      throw error
+    }
   },
 
   // Logout user
   logout: async () => {
-    const response = await api.post("/auth/logout")
-    localStorage.removeItem("token")
-    return response.data
+    try {
+      console.log("[AUTH SERVICE] Logging out user")
+      const response = await api.post("/auth/logout")
+      localStorage.removeItem("token")
+      console.log("[AUTH SERVICE] Token removed, user logged out")
+      return response.data
+    } catch (error) {
+      // Even if server logout fails, clear local token
+      localStorage.removeItem("token")
+      console.error("[AUTH SERVICE] Logout error (token cleared anyway):", error.message)
+      throw error
+    }
   },
 
   // Check if user is authenticated
   isAuthenticated: () => {
     const token = localStorage.getItem("token")
-    console.log("[v0] Checking authentication status, token exists:", !!token)
-    return !!token
+    const isAuth = !!token
+    console.log("[AUTH SERVICE] isAuthenticated check:", isAuth)
+    return isAuth
   },
 
   // Get token for debugging

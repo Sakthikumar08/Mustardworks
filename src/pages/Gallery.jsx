@@ -20,27 +20,42 @@ const Gallery = () => {
       try {
         setLoading(true)
         setError("")
-        // fetch categories and items in parallel
+        
+        console.log("[GALLERY] Loading gallery data...")
+        
+        // Fetch categories and items in parallel
         const [cats, list] = await Promise.all([
-          galleryService.getCategories().catch(() => []),
-          galleryService.getItems().catch(() => []),
+          galleryService.getCategories().catch((err) => {
+            console.error("[GALLERY] Categories fetch failed:", err)
+            return []
+          }),
+          galleryService.getItems().catch((err) => {
+            console.error("[GALLERY] Items fetch failed:", err)
+            return []
+          }),
         ])
 
         if (!isMounted) return
 
-        // normalize categories: accept string[] or {id/name}[]
-        const normalizedCats =
-          Array.isArray(cats) && cats.length > 0
-            ? cats.map((c) =>
-                typeof c === "string"
-                  ? { id: c, name: c }
-                  : { id: c.id || c.slug || c.value || c.name, name: c.name || c.label || c.id },
-              )
-            : []
+        console.log("[GALLERY] Fetched data:", {
+          categoriesCount: cats?.length || 0,
+          itemsCount: list?.length || 0
+        })
+
+        // Normalize categories: backend returns { id, name, count }
+        const normalizedCats = Array.isArray(cats) && cats.length > 0
+          ? cats.filter(cat => cat.id !== 'all') // Remove "all" if backend includes it
+          : []
 
         setCategories([{ id: "all", name: "All Projects" }, ...normalizedCats])
         setItems(Array.isArray(list) ? list : [])
+        
+        console.log("[GALLERY] Data loaded successfully:", {
+          categories: normalizedCats.length + 1, // +1 for "All"
+          items: list?.length || 0
+        })
       } catch (e) {
+        console.error("[GALLERY] Load error:", e)
         setError("Failed to load gallery. Please try again.")
       } finally {
         if (isMounted) setLoading(false)
@@ -54,21 +69,39 @@ const Gallery = () => {
   }, [])
 
   const normalizedItems = useMemo(() => {
-    return items.map((it) => ({
-      id: it.id || it._id || Math.random().toString(36).slice(2),
-      title: it.title || it.name || "Untitled",
-      category: it.category || it.type || "other",
-      image: it.image || it.imageUrl || (Array.isArray(it.images) && it.images[0]) || "/project-management-team.png",
-      description: it.description || it.summary || "",
-    }))
+    console.log("[GALLERY] Normalizing items, count:", items.length)
+    
+    return items.map((it) => {
+      // Backend Gallery model returns: { _id, title, description, category, image, isActive, createdAt, createdBy }
+      const normalized = {
+        id: it._id || it.id || Math.random().toString(36).slice(2),
+        title: it.title || "Untitled",
+        category: it.category || "other",
+        image: it.image || it.imageUrl || "/placeholder.svg?height=400&width=400",
+        description: it.description || "",
+        createdAt: it.createdAt,
+        isActive: it.isActive
+      }
+      
+      return normalized
+    })
   }, [items])
 
-  const filteredProjects =
-    selectedCategory === "all"
+  const filteredProjects = useMemo(() => {
+    const filtered = selectedCategory === "all"
       ? normalizedItems
       : normalizedItems.filter(
           (project) => String(project.category).toLowerCase() === String(selectedCategory).toLowerCase(),
         )
+    
+    console.log("[GALLERY] Filtered projects:", {
+      category: selectedCategory,
+      totalItems: normalizedItems.length,
+      filteredCount: filtered.length
+    })
+    
+    return filtered
+  }, [normalizedItems, selectedCategory])
 
   if (loading) {
     return (
@@ -126,10 +159,13 @@ const Gallery = () => {
             >
               <div className="w-full h-full overflow-hidden relative">
                 <img
-                  src={project.image || "/placeholder.svg?height=400&width=400&query=project"}
+                  src={project.image}
                   alt={project.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  crossOrigin="anonymous"
+                  onError={(e) => {
+                    console.warn("[GALLERY] Image failed to load:", project.image)
+                    e.target.src = "/placeholder.svg?height=400&width=400&text=No+Image"
+                  }}
                 />
 
                 <div
@@ -146,7 +182,7 @@ const Gallery = () => {
                       {String(project.category).toUpperCase()}
                     </span>
                     <h3 className="text-white font-bold text-lg mb-2 leading-tight">{project.title}</h3>
-                    <p className="text-gray-200 text-sm leading-relaxed">{project.description}</p>
+                    <p className="text-gray-200 text-sm leading-relaxed line-clamp-3">{project.description}</p>
                   </div>
                 </div>
               </div>

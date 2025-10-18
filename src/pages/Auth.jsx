@@ -68,15 +68,21 @@ const LoginForm = ({ onToggleForm, setUser }) => {
     setError("")
 
     try {
-      console.log("[v0] Attempting login with:", { email: formData.email })
+      console.log("[AUTH LOGIN] Attempting login with:", { email: formData.email })
       const data = await authService.login({
         email: formData.email,
         password: formData.password,
       })
 
+      console.log("[AUTH LOGIN] Login response received:", {
+        success: data?.success,
+        hasToken: !!data?.token,
+        hasUser: !!data?.data?.user || !!data?.user
+      })
+
       // After authService.login, token should be in localStorage
       const hasToken = authService.isAuthenticated()
-      console.log("[v0] Token present after login:", hasToken)
+      console.log("[AUTH LOGIN] Token present after login:", hasToken)
 
       if (!hasToken) {
         setError("Login failed. No token received.")
@@ -86,21 +92,24 @@ const LoginForm = ({ onToggleForm, setUser }) => {
 
       // Fetch user profile using the fresh token
       const me = await authService.getCurrentUser()
-      console.log("[v0] /auth/me result:", me)
+      console.log("[AUTH LOGIN] User profile fetched:", me)
       const normalizedUser = me?.user || me?.data?.user || me
 
       if (!normalizedUser) {
-        console.log("[v0] Could not normalize user; proceeding anyway")
+        console.warn("[AUTH LOGIN] Could not normalize user data")
       }
 
       setUser(normalizedUser || null)
 
       const redirectTo = location.state?.from || "/"
-      console.log("[v0] Redirecting to:", redirectTo)
-      navigate(redirectTo)
+      console.log("[AUTH LOGIN] Login successful, redirecting to:", redirectTo)
+      navigate(redirectTo, { replace: true })
     } catch (error) {
-      console.error("[v0] Login error:", error)
-      setError(error.response?.data?.message || "Login failed. Please try again.")
+      console.error("[AUTH LOGIN] Login error:", error)
+      const errorMessage = error.response?.data?.message || error.message || "Login failed. Please try again."
+      setError(errorMessage)
+      // Clear any partial token on error
+      localStorage.removeItem("token")
     } finally {
       setLoading(false)
     }
@@ -212,6 +221,13 @@ const SignupForm = ({ onToggleForm, setUser }) => {
     setLoading(true)
     setError("")
 
+    // Validate password match
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match")
+      setLoading(false)
+      return
+    }
+
     try {
       const payload = {
         firstName: formData.firstName,
@@ -222,16 +238,36 @@ const SignupForm = ({ onToggleForm, setUser }) => {
         agreeToTerms: formData.agreeToTerms,
       }
 
+      console.log("[AUTH REGISTER] Attempting registration for:", formData.email)
       const response = await authService.register(payload)
+
+      console.log("[AUTH REGISTER] Registration response:", {
+        success: response?.success,
+        hasToken: !!response?.token,
+        hasUser: !!response?.data?.user || !!response?.user
+      })
+
+      // Verify token was stored
+      const hasToken = authService.isAuthenticated()
+      if (!hasToken) {
+        setError("Registration successful but authentication failed. Please login.")
+        setLoading(false)
+        return
+      }
 
       // authService.register stores token if present; also return shape can vary
       const userData = response?.user || response?.data?.user || response
       setUser(userData)
 
       const from = location.state?.from || "/"
+      console.log("[AUTH REGISTER] Registration successful, redirecting to:", from)
       navigate(from, { replace: true })
     } catch (err) {
-      setError(err?.response?.data?.message || "Registration failed. Please try again.")
+      console.error("[AUTH REGISTER] Registration error:", err)
+      const errorMessage = err?.response?.data?.message || err.message || "Registration failed. Please try again."
+      setError(errorMessage)
+      // Clear any partial token on error
+      localStorage.removeItem("token")
     } finally {
       setLoading(false)
     }
