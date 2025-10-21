@@ -1,6 +1,9 @@
 import axios from 'axios';
 
+// Use environment variable or fallback to production backend
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://mustardworks-backend.onrender.com/api';
+
+console.log('🔗 API Base URL:', API_BASE_URL);
 
 // Create axios instance
 const api = axios.create({
