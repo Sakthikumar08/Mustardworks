@@ -9,6 +9,7 @@ const Contact = () => {
     subject: "",
     message: "",
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleChange = (e) => {
     setFormData({
@@ -17,15 +18,37 @@ const Contact = () => {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    alert("Thank you for your message! We will get back to you soon.")
-    setFormData({
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
-    })
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: "isa32dkw2y0wij",
+          ...formData
+        }),
+      })
+
+      const result = await response.json()
+      if (result.success) {
+        alert("Message sent successfully!")
+        setFormData({
+          name: "",
+          email: "",
+          subject: "",
+          message: "",
+        })
+      } else {
+        alert("Failed to send message. Please try again.")
+      }
+    } catch (error) {
+      alert("An error occurred. Please try again.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -119,8 +142,12 @@ const Contact = () => {
                 ></textarea>
               </div>
 
-              <button type="submit" className="btn-primary w-full text-center">
-                Send Message
+              <button 
+                type="submit" 
+                disabled={isSubmitting}
+                className="btn-primary w-full text-center disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? "Sending..." : "Send Message"}
               </button>
             </form>
           </div>
