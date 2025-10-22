@@ -63,43 +63,44 @@ const Navbar = ({ user, setUser }) => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-[color:var(--nav-bg)] shadow-soft" : "bg-[color:var(--nav-bg)]"}`}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        scrolled ? "bg-[color:var(--nav-bg)] shadow-soft backdrop-blur-md" : "bg-[color:var(--nav-bg)] backdrop-blur-md"
+      }`}
     >
-      <div className="container mx-auto px-4 py-3">
+      <div className="container mx-auto px-4 py-3 md:py-4">
         <div className="flex justify-between items-center">
           {/* left */}
-          <Link to="/" className="flex items-center">
-  <img 
-    src={MWlogo}
-    alt="MustardWorks" 
-    className="h-8 w-8" // Adjust height and width as needed
-  />
-  <span className="text-xl font-bold text-app ml-3">MustardWorks</span>
-</Link>
+          <Link to="" className="flex items-center flex-shrink-0">
+            <img 
+              src="/logo.png" 
+              alt="MustardWorks Logo"
+              className="w-48 sm:w-52 md:w-60 h-10 sm:h-11 md:h-12 object-contain"
+            />
+          </Link>
 
           {/* center links */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
             <Link
               to="/"
-              className={`transition-colors ${isActive("/") ? "text-[color:var(--primary)] font-semibold" : "text-secondary hover:text-app"}`}
+              className={`transition-colors text-base hover:scale-105 transition-transform ${isActive("/") ? "text-[color:var(--primary)] font-semibold" : "text-secondary hover:text-app"}`}
             >
               Home
             </Link>
             <Link
               to="/about"
-              className={`transition-colors ${isActive("/about") ? "text-[color:var(--primary)] font-semibold" : "text-secondary hover:text-app"}`}
+              className={`transition-colors text-base hover:scale-105 transition-transform ${isActive("/about") ? "text-[color:var(--primary)] font-semibold" : "text-secondary hover:text-app"}`}
             >
               About Us
             </Link>
             <Link
               to="/gallery"
-              className={`transition-colors ${isActive("/gallery") ? "text-[color:var(--primary)] font-semibold" : "text-secondary hover:text-app"}`}
+              className={`transition-colors text-base hover:scale-105 transition-transform ${isActive("/gallery") ? "text-[color:var(--primary)] font-semibold" : "text-secondary hover:text-app"}`}
             >
               Gallery
             </Link>
             <Link
               to="/contact"
-              className={`transition-colors ${isActive("/contact") ? "text-[color:var(--primary)] font-semibold" : "text-secondary hover:text-app"}`}
+              className={`transition-colors text-base hover:scale-105 transition-transform ${isActive("/contact") ? "text-[color:var(--primary)] font-semibold" : "text-secondary hover:text-app"}`}
             >
               Contact Us
             </Link>
@@ -107,7 +108,7 @@ const Navbar = ({ user, setUser }) => {
               <Link
                 to="/project-submission"
                 onClick={handleProjectSubmissionClick}
-                className={`transition-colors ${isActive("/project-submission") ? "text-[color:var(--primary)] font-semibold" : "text-secondary hover:text-app"}`}
+                className={`transition-colors text-base hover:scale-105 transition-transform ${isActive("/project-submission") ? "text-[color:var(--primary)] font-semibold" : "text-secondary hover:text-app"}`}
               >
                 Project Submission
               </Link>
@@ -115,17 +116,17 @@ const Navbar = ({ user, setUser }) => {
           </div>
 
           {/* right controls */}
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden lg:flex items-center gap-3">
             <ThemeToggle />
             {!user ? (
-              <button onClick={() => navigate("/auth")} className="btn-primary">
+              <button onClick={() => navigate("/auth")} className="btn-primary px-6 py-2.5">
                 Sign In
               </button>
             ) : (
               <div className="relative">
                 <button
                   onClick={() => setShowMenu((s) => !s)}
-                  className="h-9 w-9 rounded-full bg-[color:var(--primary-ghost)] text-[color:var(--primary)] font-bold flex items-center justify-center shadow-subtle"
+                  className="h-10 w-10 rounded-full bg-[color:var(--primary-ghost)] text-[color:var(--primary)] font-bold flex items-center justify-center shadow-subtle hover:shadow-soft transition-shadow"
                   aria-haspopup="menu"
                   aria-expanded={showMenu}
                 >
@@ -134,21 +135,27 @@ const Navbar = ({ user, setUser }) => {
                 {showMenu && (
                   <div
                     role="menu"
-                    className="absolute right-0 mt-2 w-44 rounded-xl bg-surface shadow-soft border border-[color:var(--border)] overflow-hidden"
+                    className="absolute right-0 mt-2 w-48 rounded-xl bg-surface shadow-soft border border-[color:var(--border)] overflow-hidden z-50"
                   >
                     <button
-                      className="w-full text-left px-4 py-2 hover:bg-[color:var(--surface-2)] text-app"
+                      className="w-full text-left px-4 py-3 hover:bg-[color:var(--surface-2)] text-app transition-colors flex items-center gap-2"
                       onClick={() => {
                         setShowMenu(false)
                         navigate("/profile")
                       }}
                     >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
                       Profile
                     </button>
                     <button
-                      className="w-full text-left px-4 py-2 hover:bg-[color:var(--surface-2)] text-danger"
+                      className="w-full text-left px-4 py-3 hover:bg-red-50 dark:hover:bg-red-900/20 text-danger transition-colors flex items-center gap-2"
                       onClick={logout}
                     >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                      </svg>
                       Logout
                     </button>
                   </div>
@@ -158,12 +165,17 @@ const Navbar = ({ user, setUser }) => {
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden flex items-center gap-2">
+          <div className="lg:hidden flex items-center gap-2">
             <ThemeToggle />
-            <button onClick={() => setIsOpen(!isOpen)} className="text-app focus:outline-none">
+            <button 
+              onClick={() => setIsOpen(!isOpen)} 
+              className="text-app focus:outline-none p-2 hover:bg-[color:var(--surface-2)] rounded-lg transition-colors"
+              aria-label="Toggle menu"
+              aria-expanded={isOpen}
+            >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {isOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12M6 12h12" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 )}
@@ -174,31 +186,47 @@ const Navbar = ({ user, setUser }) => {
 
         {/* Mobile menu */}
         {isOpen && (
-          <div className="md:hidden mt-4 pb-4 bg-surface rounded-lg shadow-soft p-4">
+          <div className="lg:hidden mt-4 pb-4 bg-surface rounded-xl shadow-soft p-4 border border-token mobile-menu animate-slideDown">
             <Link
               to="/"
-              className={`block py-2 ${isActive("/") ? "text-[color:var(--primary)] font-semibold" : "text-secondary"}`}
+              className={`block py-3 px-4 rounded-lg mb-1 transition-all ${
+                isActive("/") 
+                  ? "text-[color:var(--primary)] font-semibold bg-[color:var(--primary-ghost)]" 
+                  : "text-secondary hover:bg-[color:var(--surface-2)] hover:text-app"
+              }`}
               onClick={() => setIsOpen(false)}
             >
               Home
             </Link>
             <Link
               to="/about"
-              className={`block py-2 ${isActive("/about") ? "text-[color:var(--primary)] font-semibold" : "text-secondary"}`}
+              className={`block py-3 px-4 rounded-lg mb-1 transition-all ${
+                isActive("/about") 
+                  ? "text-[color:var(--primary)] font-semibold bg-[color:var(--primary-ghost)]" 
+                  : "text-secondary hover:bg-[color:var(--surface-2)] hover:text-app"
+              }`}
               onClick={() => setIsOpen(false)}
             >
               About Us
             </Link>
             <Link
               to="/gallery"
-              className={`block py-2 ${isActive("/gallery") ? "text-[color:var(--primary)] font-semibold" : "text-secondary"}`}
+              className={`block py-3 px-4 rounded-lg mb-1 transition-all ${
+                isActive("/gallery") 
+                  ? "text-[color:var(--primary)] font-semibold bg-[color:var(--primary-ghost)]" 
+                  : "text-secondary hover:bg-[color:var(--surface-2)] hover:text-app"
+              }`}
               onClick={() => setIsOpen(false)}
             >
               Gallery
             </Link>
             <Link
               to="/contact"
-              className={`block py-2 ${isActive("/contact") ? "text-[color:var(--primary)] font-semibold" : "text-secondary"}`}
+              className={`block py-3 px-4 rounded-lg mb-1 transition-all ${
+                isActive("/contact") 
+                  ? "text-[color:var(--primary)] font-semibold bg-[color:var(--primary-ghost)]" 
+                  : "text-secondary hover:bg-[color:var(--surface-2)] hover:text-app"
+              }`}
               onClick={() => setIsOpen(false)}
             >
               Contact Us
@@ -207,7 +235,11 @@ const Navbar = ({ user, setUser }) => {
               <>
                 <Link
                   to="/project-submission"
-                  className={`block py-2 ${isActive("/project-submission") ? "text-[color:var(--primary)] font-semibold" : "text-secondary"}`}
+                  className={`block py-3 px-4 rounded-lg mb-1 transition-all ${
+                    isActive("/project-submission") 
+                      ? "text-[color:var(--primary)] font-semibold bg-[color:var(--primary-ghost)]" 
+                      : "text-secondary hover:bg-[color:var(--surface-2)] hover:text-app"
+                  }`}
                   onClick={(e) => {
                     setIsOpen(false)
                     handleProjectSubmissionClick(e)
@@ -217,21 +249,25 @@ const Navbar = ({ user, setUser }) => {
                 </Link>
                 <Link
                   to="/profile"
-                  className={`block py-2 ${isActive("/profile") ? "text-[color:var(--primary)] font-semibold" : "text-secondary"}`}
+                  className={`block py-3 px-4 rounded-lg mb-1 transition-all ${
+                    isActive("/profile") 
+                      ? "text-[color:var(--primary)] font-semibold bg-[color:var(--primary-ghost)]" 
+                      : "text-secondary hover:bg-[color:var(--surface-2)] hover:text-app"
+                  }`}
                   onClick={() => setIsOpen(false)}
                 >
                   Profile
                 </Link>
               </>
             )}
-            <div className="pt-2">
+            <div className="pt-3 mt-2 border-t border-token">
               {!user ? (
                 <button
                   onClick={() => {
                     setIsOpen(false)
                     navigate("/auth")
                   }}
-                  className="btn-primary w-full"
+                  className="btn-primary w-full text-center py-3 text-base"
                 >
                   Sign In
                 </button>
@@ -241,8 +277,11 @@ const Navbar = ({ user, setUser }) => {
                     setIsOpen(false)
                     logout()
                   }}
-                  className="btn-primary w-full"
+                  className="w-full text-danger font-medium py-3 px-4 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex items-center justify-center gap-2"
                 >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
                   Logout
                 </button>
               )}

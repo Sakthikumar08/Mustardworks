@@ -4,6 +4,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { useState, useEffect } from "react"
 import Navbar from "./components/Navbar"
+import Footer from "./components/Footer"
 import Home from "./pages/Home"
 import AboutUs from "./pages/About"
 import ContactUs from "./pages/Contact"
@@ -116,6 +117,7 @@ function App() {
             {/* 404 page */}
             <Route path="*" element={<div className="container mx-auto px-4 py-16 text-center">Page Not Found</div>} />
           </Routes>
+          <Footer />
         </div>
       </ThemeProvider>
     </Router>

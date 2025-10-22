@@ -129,6 +129,34 @@ body {
   font-family: "Inter", sans-serif;
   background: var(--bg);
   color: var(--text);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /* Prevent horizontal scroll */
+  overflow-x: hidden;
+  /* Better text rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Ensure main content takes up available space, pushing footer down */
+main {
+  flex: 1;
+  overflow-x: hidden;
 }
 
 html {
@@ -238,5 +266,338 @@ html {
   }
   to {
     transform: translate3d(24px, -24px, 0) rotate(3deg);
+  }
+}
+
+/* ========================================
+   RESPONSIVE UTILITIES
+   ======================================== */
+
+/* Mobile-First Container Improvements */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem; /* 16px on mobile */
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: 1.5rem; /* 24px on tablet */
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 2rem; /* 32px on desktop */
+    padding-right: 2rem;
+  }
+}
+
+/* Touch-Friendly Interactive Elements */
+.btn-primary,
+button,
+a.btn {
+  min-height: 44px; /* WCAG touch target minimum */
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile: Larger buttons */
+@media (max-width: 767px) {
+  .btn-primary,
+  button.btn-primary {
+    min-height: 48px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* Responsive Typography Scale */
+@media (max-width: 767px) {
+  h1,
+  .text-5xl,
+  .text-6xl {
+    font-size: 2rem !important; /* 32px */
+    line-height: 2.5rem !important;
+  }
+  
+  h2,
+  .text-4xl {
+    font-size: 1.75rem !important; /* 28px */
+    line-height: 2.25rem !important;
+  }
+  
+  h3,
+  .text-3xl {
+    font-size: 1.5rem !important; /* 24px */
+    line-height: 2rem !important;
+  }
+  
+  .text-2xl {
+    font-size: 1.25rem !important; /* 20px */
+    line-height: 1.75rem !important;
+  }
+  
+  .text-xl {
+    font-size: 1.125rem !important; /* 18px */
+    line-height: 1.75rem !important;
+  }
+}
+
+/* Prevent text overflow */
+* {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Images responsive by default */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Better spacing for mobile */
+@media (max-width: 767px) {
+  .section-padding {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  .py-20 {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+  
+  .py-16 {
+    padding-top: 2.5rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+  
+  .mb-16 {
+    margin-bottom: 2.5rem !important;
+  }
+  
+  .mb-12 {
+    margin-bottom: 2rem !important;
+  }
+  
+  .gap-12 {
+    gap: 2rem !important;
+  }
+}
+
+/* Mobile Navigation Improvements */
+@media (max-width: 767px) {
+  nav {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+  
+  .mobile-menu {
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Grid Improvements for Mobile */
+@media (max-width: 767px) {
+  .grid-cols-2,
+  .md\:grid-cols-2,
+  .lg\:grid-cols-2,
+  .grid-cols-3,
+  .md\:grid-cols-3,
+  .lg\:grid-cols-3,
+  .grid-cols-4,
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  /* Stats should show 2 columns on mobile */
+  .stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* Form Elements Mobile Optimization */
+@media (max-width: 767px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="tel"],
+  select,
+  textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+    min-height: 44px;
+    padding: 0.75rem 1rem;
+  }
+  
+  select {
+    background-size: 20px;
+    padding-right: 2.5rem;
+  }
+}
+
+/* Card Spacing Mobile */
+@media (max-width: 767px) {
+  .bg-surface,
+  .card {
+    padding: 1.25rem !important;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Floating Action Buttons (Mobile) */
+@media (max-width: 767px) {
+  .floating-btn {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1rem;
+    z-index: 40;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Better Modal/Popup on Mobile */
+@media (max-width: 767px) {
+  .modal-content,
+  .popup {
+    max-width: 95vw !important;
+    margin: 0.5rem;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+@media (max-width: 767px) {
+  html {
+    scroll-padding-top: 64px;
+  }
+}
+
+/* Improved Focus States for Accessibility */
+*:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* No outline for mouse users */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Safe Area for iOS Notch */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+  }
+  
+  nav {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}
+
+/* Prevent zoom on double-tap (iOS) */
+button,
+a {
+  touch-action: manipulation;
+}
+
+/* Better table responsiveness */
+@media (max-width: 767px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Aspect Ratio utilities for better responsive images */
+.aspect-video {
+  aspect-ratio: 16 / 9;
+}
+
+.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
+.aspect-portrait {
+  aspect-ratio: 3 / 4;
+}
+
+/* Loading States */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-2) 25%,
+    var(--surface) 50%,
+    var(--surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s ease-in-out infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Slide Down Animation for Mobile Menu */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideDown {
+  animation: slideDown 0.3s ease-out forwards;
+}
+
+/* Print Styles */
+@media print {
+  nav,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white;
+    color: black;
+  }
+  
+  a {
+    text-decoration: underline;
   }
 }
